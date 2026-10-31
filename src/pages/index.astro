@@ -1,0 +1,227 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import { profile, projects, skills, experience } from '../data/profile';
+import { getPublishedPosts, formatDate } from '../lib/blog';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const featured = projects.filter((p) => p.featured);
+const posts = (await getPublishedPosts()).slice(0, 3);
+const initials = profile.name
+  .split(/[\s-]+/)
+  .map((w) => w[0])
+  .join('');
+---
+
+<Base>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>{profile.name}</h1>
+      <p class="title">{profile.title}</p>
+      <ul class="tagline">
+        {profile.tagline.map((line) => <li>{line}</li>)}
+      </ul>
+      <p class="meta">{profile.location}</p>
+      <div class="cta">
+        <a class="btn primary" href={`mailto:${profile.email}`}>Get in touch</a>
+        <a class="btn" href={profile.links.github}>GitHub</a>
+        <a class="btn" href={profile.links.linkedin}>LinkedIn</a>
+        <a class="btn" href={`${base}/resume`}>Resume</a>
+      </div>
+    </div>
+    {
+      profile.hasPhoto ? (
+        <img class="avatar" src={`${base}/profile.jpg`} alt={`Portrait of ${profile.name}`} width="260" height="260" />
+      ) : (
+        <div class="avatar placeholder" aria-hidden="true">{initials}</div>
+      )
+    }
+  </section>
+
+  <section class="section split">
+    <div>
+      <div class="section-head"><h2>About</h2></div>
+      <div class="readable">
+        {profile.about.map((para) => <p>{para}</p>)}      </div>
+    </div>
+    <div>
+      <div class="section-head"><h2>Skills</h2></div>
+      <dl class="skills">
+        {
+          skills.map((s) => (
+            <div>
+              <dt class="meta">{s.group}</dt>
+              <dd>
+                <ul class="tags">
+                  {s.items.map((i) => (
+                    <li>{i}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <a href={`${base}/projects`} class="meta">All projects →</a>
+    </div>
+    <div class="grid">
+      {
+        featured.map((p) => (
+          <Card
+            href={`${base}/projects/${p.slug}`}
+            eyebrow={p.period}
+            title={p.name}
+            subtitle={p.role}
+            summary={p.summary}
+            tags={p.stack}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Experience</h2>
+      <a href={`${base}/experience`} class="meta">All experience →</a>
+    </div>
+    <div class="grid">
+      {
+        experience.map((e) => (
+          <Card
+            href={`${base}/experience/${e.slug}`}
+            eyebrow={`${e.kind} · ${e.period}`}
+            title={e.title}
+            subtitle={e.org}
+            summary={e.summary}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Writing</h2>
+          <a href={`${base}/blog`} class="meta">All posts →</a>
+        </div>
+        {posts.map((post) => (
+          <a class="entry post-row" href={`${base}/blog/${post.id}`}>
+            <span>{post.data.title}</span>
+            <span class="meta">{formatDate(post.data.date)}</span>
+          </a>
+        ))}
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding: 1.5rem 0 1rem;
+  }
+  .hero-text {
+    max-width: 40rem;
+  }
+  .avatar {
+    flex: none;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 15%;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .placeholder {
+    display: grid;
+    place-items: center;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 3rem;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+  }
+  .title {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin: 0.35rem 0 1rem;
+  }
+  .tagline {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+  }
+  .tagline li + li {
+    margin-top: 0.2rem;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 3rem;
+  }
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+  }
+  .skills dt {
+    margin-bottom: 0.35rem;
+  }
+  .skills dd {
+    margin: 0;
+  }
+  .post-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--text);
+  }
+  @media (max-width: 860px) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+    .avatar {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding-top: 0;
+    }
+    .avatar {
+      width: 128px;
+      height: 128px;
+    }
+    /* Lines wrap on phones, so separate them more clearly. */
+    .tagline li + li {
+      margin-top: 0.6rem;
+    }
+  }
+</style>

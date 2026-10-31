@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import DetailHeader from '../../components/DetailHeader.astro';
+import Sections from '../../components/Sections.astro';
+import { experience, type Experience } from '../../data/profile';
+
+export function getStaticPaths() {
+  return experience.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: Experience };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title={entry.title} description={entry.summary}>
+  <div class="readable">
+    <DetailHeader
+      backHref={`${base}/experience`}
+      backLabel="All experience"
+      eyebrow={entry.kind}
+      title={entry.title}
+      subtitle={entry.org}
+      period={entry.period}
+      tags={entry.tags}
+    />
+    <p class="lead">{entry.summary}</p>
+    <Sections sections={entry.sections} />
+  </div>
+</Base>
+
+<style>
+  .lead {
+    font-size: 1.05rem;
+    margin-bottom: 2.25rem;
+  }
+</style>

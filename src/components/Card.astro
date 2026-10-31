@@ -1,0 +1,68 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  eyebrow?: string;
+  subtitle?: string;
+  summary: string;
+  tags?: string[];
+}
+
+const { href, title, eyebrow, subtitle, summary, tags = [] } = Astro.props;
+---
+
+<a class="card" href={href}>
+  {eyebrow && <span class="eyebrow meta">{eyebrow}</span>}
+  <h3>{title}</h3>
+  {subtitle && <p class="meta subtitle">{subtitle}</p>}
+  <p class="summary">{summary}</p>
+  {
+    tags.length > 0 && (
+      <ul class="tags">
+        {tags.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )
+  }
+  <span class="more">Read more →</span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text);
+    transition:
+      border-color 0.15s,
+      transform 0.15s,
+      box-shadow 0.15s;
+  }
+  .card:hover {
+    text-decoration: none;
+    border-color: var(--muted);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.06);
+  }
+  .eyebrow {
+    font-size: 0.8rem;
+  }
+  .subtitle {
+    margin: 0;
+  }
+  .summary {
+    margin: 0.3rem 0 0.6rem;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .more {
+    margin-top: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--accent);
+  }
+</style>

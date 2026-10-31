@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import DetailHeader from '../../components/DetailHeader.astro';
+import Sections from '../../components/Sections.astro';
+import { projects, type Project } from '../../data/profile';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const sections = [
+  { title: 'Overview', description: project.summary },
+  ...(project.honors ? [{ title: 'Awards', points: project.honors.map((text) => ({ text })) }] : []),
+  { title: 'What I did', points: project.highlights.map((text) => ({ text })) },
+];
+---
+
+<Base title={project.name} description={project.summary}>
+  <div class="readable">
+    <DetailHeader
+      backHref={`${base}/projects`}
+      backLabel="All projects"
+      eyebrow={project.context}
+      title={project.name}
+      subtitle={project.role}
+      period={project.period}
+      tags={project.stack}
+      links={project.links}
+    />
+    <Sections sections={sections} />
+  </div>
+</Base>

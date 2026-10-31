@@ -1,0 +1,64 @@
+---
+import type { Link } from '../data/profile';
+
+interface Props {
+  backHref: string;
+  backLabel: string;
+  eyebrow?: string;
+  title: string;
+  subtitle: string;
+  period: string;
+  tags: string[];
+  links?: Link[];
+}
+
+const { backHref, backLabel, eyebrow, title, subtitle, period, tags, links = [] } = Astro.props;
+---
+
+<header class="detail-header">
+  <a class="back meta" href={backHref}>← {backLabel}</a>
+  {eyebrow && <p class="eyebrow mono">{eyebrow}</p>}
+  <h1>{title}</h1>
+  <p class="sub">{subtitle}</p>
+  <p class="meta">{period}</p>
+  <ul class="tags">
+    {tags.map((t) => <li>{t}</li>)}
+  </ul>
+  {
+    links.length > 0 && (
+      <div class="links">
+        {links.map((l) => (
+          <a class="btn" href={l.url}>
+            {l.label} ↗
+          </a>
+        ))}
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .detail-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    color: var(--accent);
+    margin: 0 0 0.3rem;
+  }
+  .sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin: 0.5rem 0 0.25rem;
+  }
+  .tags {
+    margin-top: 1rem;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+</style>
