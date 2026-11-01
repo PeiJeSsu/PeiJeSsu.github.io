@@ -109,14 +109,25 @@ li + li {
   max-width: var(--read);
 }
 
-main {
-  padding: 3rem 0 5rem;
+/* main also has .container, so set only the vertical padding here. */
+main.container {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1rem;
+}
+/* Two columns, for lists with an even number of cards. */
+.grid.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 720px) {
+  .grid.two {
+    grid-template-columns: 1fr;
+  }
 }
 
 .back {
@@ -221,12 +232,29 @@ main {
 }
 
 @media print {
+  /* Always print in light colors, whatever theme is on screen. */
+  :root,
+  :root[data-theme='dark'] {
+    --bg: #fff;
+    --surface: #fff;
+    --text: #111;
+    --muted: #444;
+    --border: #bbb;
+    color-scheme: light;
+  }
+  body {
+    background: #fff;
+  }
   .site-header,
   .site-footer,
   .no-print {
     display: none !important;
   }
-  main {
+  main.container {
+    padding: 0;
+  }
+  .container {
+    max-width: none;
     padding: 0;
   }
 }

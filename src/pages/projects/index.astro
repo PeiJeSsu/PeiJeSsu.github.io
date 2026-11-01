@@ -9,17 +9,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <Base title="Projects" description="Selected software projects by Pei-Je Ssu.">
   <h1>Projects</h1>
   <p class="page-intro">Things I've built, mostly as a team lead. Open one to see the engineering behind it.</p>
-  <div class="grid">
+  <div class="grid two">
     {
       projects.map((p) => (
         <Card
           href={`${base}/projects/${p.slug}`}
-          eyebrow={p.period}
+          eyebrow={[p.period, p.badge].filter(Boolean).join(' · ')}
           title={p.name}
           subtitle={`${p.role.split(' & ')[0]} · ${p.course}`}
-          badge={p.badge}
           summary={p.cardSummary}
-          tags={p.stack}
+          tags={p.stack.slice(0, 3)}
         />
       ))
     }

@@ -13,7 +13,7 @@ export const profile = {
   // Set to true once public/profile.jpg exists.
   hasPhoto: true,
   // Set to true once public/resume.pdf exists.
-  hasResumePdf: false,
+  hasResumePdf: true,
   // Shown as separate lines on the homepage.
   tagline: [
     'B.S. in Computer Science and Engineering from NTOU, 4.0 GPA',
@@ -44,13 +44,16 @@ export type Project = {
   context: string;
   // Short course/context label for cards.
   course: string;
+  // Most important first: cards show only the first three.
   stack: string[];
   summary: string;
   // Shorter summary for cards; the full one shows on the detail page.
   cardSummary: string;
-  // Small highlight line on the card, e.g. awards.
+  // Short highlight shown next to the date on the card, e.g. awards.
   badge?: string;
   honors?: string[];
+  // One-line honors summary for the resume page; the detail page lists them all.
+  resumeHonors?: string;
   // Full sentences used on the resume page.
   highlights: string[];
   // Why the project exists, shown right after the overview.
@@ -79,11 +82,12 @@ export const projects: Project[] = [
     period: 'Fall 2024 – Fall 2025',
     context: 'Capstone Project · team of 4',
     course: 'Capstone Project',
-    stack: ['React', 'Spring Boot', 'MongoDB', 'Gemini API'],
+    stack: ['React', 'Spring Boot', 'Gemini API', 'MongoDB'],
     cardSummary: 'An AI emotional support platform where users draw, chat, and get empathetic replies.',
-    badge: '🏆 3 awards',
+    badge: '3 awards',
     summary:
       'An emotional support platform where users can draw and chat with an AI companion.',
+    resumeHonors: '3rd Place, InnoServe Awards; 2 Honorable Mentions; NTOU Summer Program',
     honors: [
       '3rd Place, 30th InnoServe Awards (2025)',
       'Honorable Mention, MOE Intelligent Innovation Contest (2025)',
@@ -91,10 +95,11 @@ export const projects: Project[] = [
       "Selected for NTOU's Summer Practical Learning Program (Summer 2025)",
     ],
     highlights: [
-      'Designed a crisis-aware response flow: a separate Gemini call rated recent messages on a five-level rubric, and the level shaped the reply — from ordinary conversation up to crisis hotlines and nearby counseling services found via web search.',
-      'Implemented real-time chat over Server-Sent Events, streaming Gemini output as it was generated and persisting every message to MongoDB so conversations survived server restarts.',
-      'Set up CI/CD where GitHub Actions ran 1,300+ JUnit and Jest tests with coverage and SonarQube analysis on every push and pull request, then deployed each commit automatically.',
-      'Resolved a pre-competition outage caused by oversized drawings by GZIP-compressing canvas data and moving it to MongoDB GridFS, restoring service in time for the InnoServe demo.',
+      'Led a team of 4 as Team Lead and Scrum Master, from idea to three awards.',
+      'Planned and designed a crisis-aware flow that scores messages on a five-level rubric.',
+      'Built real-time chat that streams Gemini replies over Server-Sent Events.',
+      'Set up CI/CD that ran 1,300+ JUnit and Jest tests with SonarQube on every push.',
+      'Fixed a MongoDB outage the day before the InnoServe Awards, in time to win third place.',
     ],
     why: [
       'Several of my friends were struggling but hesitated to seek professional help.',
@@ -213,14 +218,16 @@ export const projects: Project[] = [
     period: 'Fall 2024',
     context: 'Software Engineering Course · team of 5',
     course: 'Software Engineering',
-    stack: ['React', 'Spring Boot', 'MongoDB', 'Docker'],
+    stack: ['React', 'Spring Boot', 'Docker', 'MongoDB'],
     cardSummary: 'A classroom booking platform for students, with room and key management for administrators.',
     summary:
       'A platform for booking campus classrooms and managing rooms and keys.',
     highlights: [
-      'Built the booking service, rejecting overlapping, duplicate, and banned-user or banned-room requests up front so users learned immediately that a slot was unavailable.',
-      'Engineered Firebase authentication with email/password and Google sign-in, email verification, and role-based access; school-email registration ensured only verified students could book.',
-      'Containerized the Spring Boot backend with Docker and deployed it on Render, with the React frontend on Vercel.',
+      'Led a team of 5 as Team Lead and Scrum Master, introducing Git branches and pull requests.',
+      'Built the booking service, rejecting overlapping, duplicate, and banned-room requests.',
+      'Built Firebase authentication with Google sign-in, school-email checks, and roles.',
+      'Containerized the backend with Docker and deployed it on Render, with the frontend on Vercel.',
+      'Planned system, API, performance, and automated UI testing, and ran the JMeter performance tests.',
     ],
     contributions: [
       'Led a team of 5 as Team Lead and Scrum Master.',
@@ -350,8 +357,9 @@ export const projects: Project[] = [
     summary:
       'A desktop app for logging meals and workouts, tracking goals, and getting AI health advice.',
     highlights: [
-      'Created a reusable JavaFX GUI template that teammates plugged their modules into, giving every screen a consistent layout.',
-      'Added goal setting, progress tracking, and reminders for diet and exercise, with file-based storage for profiles and records.',
+      'Led a team of 3 and built the shared JavaFX GUI template that every screen was built on.',
+      'Built weekly and monthly goals with progress tracking and goal reminders.',
+      'Saved and loaded user data as CSV files, encoded for Excel and tolerant of hand-edited files.',
     ],
     whyTitle: 'Why We Built It',
     why: [
@@ -441,9 +449,9 @@ export const projects: Project[] = [
     cardSummary: 'A hiking guide to five Taiwanese mountains, with a message board for hikers.',
     summary: 'A hiking website with trail guides for five mountains in Taiwan and a message board for hikers.',
     highlights: [
-      'Built the backend for sign-up, login, and a message board with Express and MongoDB, hashing passwords with bcrypt and issuing JWTs on login.',
-      "Compared the requester's email with the message's author before allowing edits or deletes.",
-      'Designed the UI for every page and built the home, About Us, login, sign-up, and message board pages.',
+      'Led a team of 2 and designed the UI for every page.',
+      'Built the home, About Us, login, sign-up, and message board pages.',
+      'Built the backend for sign-up, login, and the message board with Express and MongoDB.',
     ],
     whyTitle: 'Why We Built It',
     why: [
@@ -531,8 +539,6 @@ export type Section = {
   // With href, the label is rendered as a link (site-relative paths get the base URL).
   points?: { label?: string; href?: string; text: string }[];
   tags?: string[];
-  // Leave out of the one-page resume when the detail is covered elsewhere there.
-  hideOnResume?: boolean;
 };
 
 export type Experience = {
@@ -546,6 +552,8 @@ export type Experience = {
   period: string;
   summary: string;
   tags: string[];
+  // Short bullets for the one-page resume; the detail page uses sections.
+  resume: string[];
   sections: Section[];
 };
 
@@ -558,6 +566,12 @@ export const experience: Experience[] = [
     period: 'Fall 2022 – Fall 2025',
     summary: 'Graduated a semester early with a focus on systems and software engineering.',
     tags: ['GPA 4.0/4.0', 'Top 7.2% in Dept', 'Early Graduation'],
+    resume: [
+      'GPA 4.0/4.0, ranked 9/125 in the department (top 7.2%); graduated a semester early',
+      'Academic Excellence Scholarship (1st in class), Fall 2025',
+      'CTBC Bank and Chu Chi Association Scholarships, Fall 2022 – Fall 2025',
+      'Coursework: Data Structures, Algorithms, Operating Systems, Computer Networks, Software Engineering',
+    ],
     sections: [
       {
         title: 'Academics',
@@ -567,7 +581,6 @@ export const experience: Experience[] = [
       },
       {
         title: 'Early Graduation',
-        hideOnResume: true,
         description: 'Completed the degree in 3.5 years instead of the usual 4 by meeting every requirement:',
         points: [
           { text: 'Finished all required credits a semester ahead of schedule.' },
@@ -585,7 +598,6 @@ export const experience: Experience[] = [
       },
       {
         title: 'Capstone Project',
-        hideOnResume: true,
         points: [
           { label: 'FeelInk', href: '/projects/feelink', text: 'AI-powered emotional support platform' },
           { text: 'Team Lead & Scrum Master of a team of 4' },
@@ -594,7 +606,6 @@ export const experience: Experience[] = [
       },
       {
         title: 'Course Projects',
-        hideOnResume: true,
         points: [
           {
             label: 'Class Reservation System',
@@ -637,6 +648,12 @@ export const experience: Experience[] = [
     summary:
       'A research internship spanning cloud infrastructure and software engineering.',
     tags: ['Container Orchestration', 'Cloud Infrastructure', 'Requirements Analysis', 'Software Design'],
+    resume: [
+      'Tested Kubernetes, K3s, and k0s on Ubuntu and Debian; the lab adopted my Ubuntu + k0s setup.',
+      'Automated remote setup over SSH with Ansible playbooks and Bash scripts that the lab later reused.',
+      "Resolved a long-running kubeconfig issue by tracing the cluster's config files.",
+      'Researched code quality tools and joined design discussions for a Clean Code learning platform.',
+    ],
     sections: [
       {
         title: 'Cloud Infrastructure Research',
@@ -679,6 +696,13 @@ export const experience: Experience[] = [
     summary:
       'Led four team projects to on-time delivery and served as Scrum Master on two of them.',
     tags: ['Team Lead ×4', 'Scrum Master ×2', 'Agile/Scrum', 'CI/CD', 'Code Review', 'Jira'],
+    resume: [
+      'Led four team projects to on-time completion, including FeelInk, winner of three competition awards.',
+      'Introduced Git branching and code review after early projects broke from shared files.',
+      'Ran sprint planning, reviews, and retrospectives as Scrum Master on two projects, tracking progress on Jira.',
+      'Settled technical disagreements by having teammates prototype the options and decide together.',
+      'Paired with a stalled teammate until they could keep pace on their own.',
+    ],
     sections: [
       {
         title: 'Projects Led',

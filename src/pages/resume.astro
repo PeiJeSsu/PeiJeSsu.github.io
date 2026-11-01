@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import { profile, skills, projects, experience } from '../data/profile';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const kinds = ['Education', 'Research', 'Leadership'] as const;
+// Order of resume sections: experience kinds plus projects and skills.
+const sections = ['Education', 'Research', 'Projects', 'Leadership', 'Skills'] as const;
 const sectionTitle = { Education: 'Education', Research: 'Research Experience', Leadership: 'Leadership' };
 ---
 
@@ -24,108 +25,71 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
       <header class="r-head">
         <h2 class="r-name">{profile.name}</h2>
         <p class="meta">
-          {profile.location} · <a href={`mailto:${profile.email}`}>{profile.email}</a> ·
-          <a href={profile.links.github}>GitHub</a> · <a href={profile.links.linkedin}>LinkedIn</a>
+          {profile.location}{' · '}
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>{' · '}
+          <a href={profile.links.github}>GitHub</a>{' · '}
+          <a href={profile.links.linkedin}>LinkedIn</a>
         </p>
       </header>
 
       {
-        kinds.slice(0, 1).map((kind) => (
-          <section>
-            <h3 class="r-section">{sectionTitle[kind]}</h3>
-            {experience
-              .filter((e) => e.kind === kind)
-              .map((e) => (
+        sections.map((sec) =>
+          sec === 'Projects' ? (
+            <section>
+              <h3 class="r-section">Projects</h3>
+              {projects.map((p) => (
                 <div class="r-item">
                   <div class="entry-head">
-                    <strong>{e.org}</strong>
-                    <span class="meta">{e.period}</span>
+                    <a class="r-title" href={`${base}/projects/${p.slug}`}>
+                      {p.name} — {p.role}
+                    </a>
+                    <span class="meta">{p.period}</span>
                   </div>
-                  <div class="muted">{[e.title, e.advisor].filter(Boolean).join(" · ")}</div>
+                  <div class="muted">
+                    {p.context} · {p.stack.join(', ')}
+                  </div>
+                  {p.honors && <div class="small">Honors: {p.resumeHonors ?? p.honors.join('; ')}</div>}
                   <ul>
-                    {e.sections.filter((s) => !s.hideOnResume).flatMap((s) =>
-                      (s.points ?? []).map((pt) => (
-                        <li>
-                          {pt.label && <strong>{pt.label}: </strong>}
-                          {pt.text}
-                        </li>
-                      )),
-                    )}
+                    {p.highlights.map((h) => (
+                      <li>{h}</li>
+                    ))}
                   </ul>
                 </div>
               ))}
-          </section>
-        ))
-      }
-
-      <section>
-        <h3 class="r-section">Technical Skills</h3>
-        <ul class="plain">
-          {
-            skills.map((s) => (
-              <li>
-                <strong>{s.group}:</strong> {s.items.join(', ')}
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section>
-        <h3 class="r-section">Projects</h3>
-        {
-          projects.map((p) => (
-            <div class="r-item">
-              <div class="entry-head">
-                <strong>
-                  {p.name} — {p.role}
-                </strong>
-                <span class="meta">{p.period}</span>
-              </div>
-              <div class="muted">
-                {p.context} · {p.stack.join(', ')}
-              </div>
-              {p.honors && <div class="small">Honors: {p.honors.join('; ')}</div>}
-              <ul>
-                {p.highlights.map((h) => (
-                  <li>{h}</li>
+            </section>
+          ) : sec === 'Skills' ? (
+            <section>
+              <h3 class="r-section">Technical Skills</h3>
+              <ul class="plain">
+                {skills.map((s) => (
+                  <li>
+                    <strong>{s.group}:</strong> {s.items.join(', ')}
+                  </li>
                 ))}
               </ul>
-            </div>
-          ))
-        }
-      </section>
-
-      {
-        kinds.slice(1).map((kind) => (
-          <section>
-            <h3 class="r-section">{sectionTitle[kind]}</h3>
-            {experience
-              .filter((e) => e.kind === kind)
-              .map((e) => (
-                <div class="r-item">
-                  <div class="entry-head">
-                    <strong>{e.org}</strong>
-                    <span class="meta">{e.period}</span>
+            </section>
+          ) : (
+            <section>
+              <h3 class="r-section">{sectionTitle[sec]}</h3>
+              {experience
+                .filter((e) => e.kind === sec)
+                .map((e) => (
+                  <div class="r-item">
+                    <div class="entry-head">
+                      <a class="r-title" href={`${base}/experience/${e.slug}`}>{e.org}</a>
+                      <span class="meta">{e.period}</span>
+                    </div>
+                    <div class="muted">{[e.title, e.advisor].filter(Boolean).join(' · ')}</div>
+                    <ul>
+                      {e.resume.map((r) => (
+                        <li>{r}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <div class="muted">{[e.title, e.advisor].filter(Boolean).join(" · ")}</div>
-                  {e.sections.filter((s) => !s.hideOnResume).map((s) => (
-                    <>
-                      {s.title && <div class="r-sub">{s.title}</div>}
-                      <ul>
-                        {(s.points ?? []).map((pt) => (
-                          <li>
-                            {pt.label && <strong>{pt.label}: </strong>}
-                            {pt.text}
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ))}
-                </div>
-              ))}
-          </section>
-        ))
+                ))}
+            </section>
+          ),
+        )
       }
     </div>
   </div>
@@ -152,14 +116,30 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
   .r-name {
     font-size: 1.6rem;
   }
+  .r-head a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+  }
+  .r-head a:hover {
+    color: var(--text);
+  }
   .r-head p {
     margin: 0.3rem 0 0;
+  }
+  .r-title {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .r-title:hover {
+    color: var(--accent);
   }
   .r-section {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--accent);
+    color: var(--text);
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.3rem;
     margin: 1.75rem 0 0.9rem;
@@ -169,10 +149,6 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
   }
   .r-item ul {
     margin-top: 0.4rem;
-  }
-  .r-sub {
-    font-weight: 600;
-    margin-top: 0.7rem;
   }
   .small {
     font-size: 0.88rem;
@@ -187,10 +163,57 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
       padding: 1.25rem 1rem;
     }
   }
+  /* Print layout: fits the whole resume on one US Letter page. */
+  @page {
+    size: Letter;
+    margin: 0.35in 0.5in;
+  }
   @media print {
+    .readable-wide {
+      max-width: none;
+    }
     .resume {
       border: none;
+      border-radius: 0;
       padding: 0;
+      font-size: 9pt;
+      line-height: 1.22;
+    }
+    .resume .meta {
+      font-size: 8.5pt;
+    }
+    .plain {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      column-gap: 1rem;
+    }
+    .plain li:last-child {
+      grid-column: 1 / -1;
+    }
+    .r-name {
+      font-size: 17pt;
+    }
+    .r-section {
+      font-size: 8.5pt;
+      margin: 0.45rem 0 0.25rem;
+      padding-bottom: 0.15rem;
+    }
+    .r-item + .r-item {
+      margin-top: 0.3rem;
+    }
+    .r-item ul {
+      margin-top: 0.1rem;
+    }
+    .resume li + li {
+      margin-top: 0;
+    }
+    .small {
+      font-size: 8.8pt;
+      margin-top: 0;
+    }
+    .r-title,
+    .r-head a {
+      text-decoration: none;
     }
   }
 </style>

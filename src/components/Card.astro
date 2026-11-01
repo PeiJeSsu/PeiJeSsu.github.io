@@ -4,19 +4,17 @@ interface Props {
   title: string;
   eyebrow?: string;
   subtitle?: string;
-  badge?: string;
   summary: string;
   tags?: string[];
 }
 
-const { href, title, eyebrow, subtitle, badge, summary, tags = [] } = Astro.props;
+const { href, title, eyebrow, subtitle, summary, tags = [] } = Astro.props;
 ---
 
 <a class="card" href={href}>
   {eyebrow && <span class="eyebrow meta">{eyebrow}</span>}
   <h3>{title}</h3>
   {subtitle && <p class="meta subtitle">{subtitle}</p>}
-  {badge && <p class="badge">{badge}</p>}
   <p class="summary">{summary}</p>
   {
     tags.length > 0 && (
@@ -56,11 +54,6 @@ const { href, title, eyebrow, subtitle, badge, summary, tags = [] } = Astro.prop
   }
   .subtitle {
     margin: 0;
-  }
-  .badge {
-    margin: 0;
-    font-size: 0.85rem;
-    font-weight: 500;
   }
   .summary {
     margin: 0.3rem 0 0.6rem;

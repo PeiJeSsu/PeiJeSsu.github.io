@@ -95,12 +95,11 @@ const initials = profile.name
         featured.map((p) => (
           <Card
             href={`${base}/projects/${p.slug}`}
-            eyebrow={p.period}
+            eyebrow={[p.period, p.badge].filter(Boolean).join(' · ')}
             title={p.name}
             subtitle={`${p.role.split(' & ')[0]} · ${p.course}`}
-            badge={p.badge}
             summary={p.cardSummary}
-            tags={p.stack}
+            tags={p.stack.slice(0, 3)}
           />
         ))
       }
@@ -131,7 +130,7 @@ const initials = profile.name
     align-items: center;
     justify-content: space-between;
     gap: 3rem;
-    padding: 1.5rem 0 1rem;
+    padding: 0 0 1rem;
   }
   .hero-text {
     max-width: 40rem;
