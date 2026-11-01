@@ -1,5 +1,6 @@
 ---
 import type { Section } from '../data/profile';
+import { slugify } from '../lib/slug';
 
 interface Props {
   sections: Section[];
@@ -11,7 +12,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 {
   sections.map((s) => (
-    <section class="detail-section">
+    <section class="detail-section" id={s.title ? slugify(s.title) : undefined}>
       {s.title && <h2>{s.title}</h2>}
       {s.description && <p class="muted">{s.description}</p>}
       {s.points && (

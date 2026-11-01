@@ -16,8 +16,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           href={`${base}/projects/${p.slug}`}
           eyebrow={p.period}
           title={p.name}
-          subtitle={`${p.role} · ${p.context}`}
-          summary={p.summary}
+          subtitle={`${p.role.split(' & ')[0]} · ${p.course}`}
+          badge={p.badge}
+          summary={p.cardSummary}
           tags={p.stack}
         />
       ))

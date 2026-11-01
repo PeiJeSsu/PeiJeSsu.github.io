@@ -42,10 +42,29 @@ export type Project = {
   role: string;
   period: string;
   context: string;
+  // Short course/context label for cards.
+  course: string;
   stack: string[];
   summary: string;
+  // Shorter summary for cards; the full one shows on the detail page.
+  cardSummary: string;
+  // Small highlight line on the card, e.g. awards.
+  badge?: string;
   honors?: string[];
+  // Full sentences used on the resume page.
   highlights: string[];
+  // Why the project exists, shown right after the overview.
+  why?: string[];
+  // One-line summary of my own contributions, shown near the top of the detail page.
+  contributions?: string[];
+  // Takeaways, shown at the end of the detail page.
+  lessons?: string[];
+  // Sectioned one-line points for the detail page; falls back to highlights.
+  details?: Section[];
+  // Screenshots under public/, shown on the detail page.
+  images?: { src: string; caption: string }[];
+  // Simple concept diagram shown on the detail page.
+  flow?: Flow;
   links: Link[];
   featured?: boolean;
 };
@@ -54,16 +73,20 @@ export const projects: Project[] = [
   {
     slug: 'feelink',
     name: 'FeelInk',
-    role: 'Team Lead',
-    period: 'Spring 2025 – Fall 2025',
-    context: 'Capstone Project · 4-person team',
+    role: 'Team Lead & Scrum Master',
+    period: 'Fall 2024 – Fall 2025',
+    context: 'Capstone Project · team of 4',
+    course: 'Capstone Project',
     stack: ['React', 'Spring Boot', 'MongoDB', 'Gemini API'],
+    cardSummary: 'An AI emotional support platform where users draw, chat, and get empathetic replies.',
+    badge: '🏆 3 awards',
     summary:
-      "An AI-powered emotional support platform that analyzes users' drawings and chats to understand their emotions and respond with empathy.",
+      'An emotional support platform where users can draw and chat with an AI companion.',
     honors: [
       '3rd Place, 30th InnoServe Awards (2025)',
       'Honorable Mention, MOE Intelligent Innovation Contest (2025)',
       'Honorable Mention, CSE Capstone Competition (2025)',
+      "Selected for NTOU's Summer Practical Learning Program (Summer 2025)",
     ],
     highlights: [
       'Designed a crisis-aware response flow: a separate Gemini call rated recent messages on a five-level rubric, and the level shaped the reply — from ordinary conversation up to crisis hotlines and nearby counseling services found via web search.',
@@ -71,7 +94,111 @@ export const projects: Project[] = [
       'Set up CI/CD where GitHub Actions ran 1,300+ JUnit and Jest tests with coverage and SonarQube analysis on every push and pull request, then deployed each commit automatically.',
       'Resolved a pre-competition outage caused by oversized drawings by GZIP-compressing canvas data and moving it to MongoDB GridFS, restoring service in time for the InnoServe demo.',
     ],
+    why: [
+      'Several of my friends were struggling but hesitated to seek professional help.',
+      'Stigma around mental health care made counseling feel intimidating.',
+      'I proposed FeelInk as a gentler first step: a place to express feelings by drawing and talking.',
+    ],
+    contributions: [
+      'Led a team of 4 as Team Lead and Scrum Master, from idea to three awards.',
+      "Set up the team's Git workflow, code review, and CI/CD pipeline.",
+      'Designed the high-level backend architecture, AI chat, and crisis detection.',
+      'Built real-time chat that streams Gemini replies over Server-Sent Events.',
+      'Fixed a production outage the day before the InnoServe Awards.',
+    ],
+    details: [
+      {
+        title: 'Features',
+        points: [
+          { text: 'Drawing canvas with special brushes, shapes, and editing tools' },
+          { text: 'Three AI companions, each with its own personality' },
+          { text: 'Empathetic AI chat that streams replies in real time' },
+          { text: 'AI-generated objects and images placed right on the canvas' },
+          { text: 'Daily emotion report with eight emotion scores and inferred needs' },
+          { text: 'Warning-sign detection with relaxation and counseling resources' },
+        ],
+      },
+      {
+        title: 'Architecture',
+        points: [
+          { label: 'Frontend', text: 'React and Fabric.js, deployed on Vercel' },
+          { label: 'Backend', text: 'Spring Boot REST API, deployed on Google Cloud Run' },
+          { label: 'Database', text: 'MongoDB Atlas' },
+          { label: 'AI', text: 'Gemini API on Vertex AI' },
+        ],
+      },
+      {
+        title: 'Engineering Workflow',
+        points: [
+          { text: 'Introduced a Git branching workflow with pull requests for every change.' },
+          { text: 'Set up code review on pull requests before merging into the main branch.' },
+          { text: "Ran the team's 1,300+ JUnit and Jest tests on every push and pull request." },
+          { text: 'Added coverage reports and SonarQube analysis to every change before merge.' },
+          { text: 'Deployed each commit automatically with GitHub Actions.' },
+        ],
+      },
+      {
+        title: 'Crisis-Aware AI Responses',
+        points: [
+          { text: 'Planned and designed a crisis-aware response flow.' },
+          { text: 'Developed the rubric as a team, with input from a school counselor and our advisor.' },
+          { text: "A separate Gemini call scored each user's recent messages against it." },
+          { text: 'The level set the reply, from ordinary conversation up to crisis support.' },
+          { text: 'Lower levels offered breathing exercises, relaxing music, and positive reading.' },
+          { text: 'At the highest levels, replies pointed to crisis hotlines and nearby counseling services.' },
+        ],
+      },
+      {
+        title: 'Real-Time Chat',
+        points: [
+          { text: 'Streamed Gemini output to the browser over Server-Sent Events.' },
+          { text: 'Replies appeared as they were generated, with no silent wait.' },
+          { text: 'Persisted every message to MongoDB so conversations survived server restarts.' },
+        ],
+      },
+      {
+        title: 'Fixing an Outage Before the Awards',
+        points: [
+          { text: 'A teammate found the service down the day before the InnoServe Awards.' },
+          { text: 'Split the team up to investigate different parts of the system.' },
+          { text: 'Traced the failure from the frontend through the API to the backend.' },
+          { text: 'Pinpointed the cause in MongoDB: full-size drawings had used up our free-tier storage.' },
+          { text: 'Had the team research possible fixes in parallel.' },
+          { text: 'Found the fix: GZIP-compress drawings and store them in MongoDB GridFS.' },
+          { text: 'Moved to a new database instance and capped upload sizes.' },
+          { text: 'Restored service in time to win third place.' },
+        ],
+      },
+      {
+        title: 'Design Decisions',
+        points: [
+          { text: 'Fed emotion and topic predictions into prompts to make replies more empathetic.' },
+          { text: 'Gave each chat room its own Gemini chat session to keep memories separate.' },
+          { text: "Chose prompt design over RAG and fine-tuning, which the project didn't need." },
+        ],
+      },
+    ],
+    flow: {
+      title: 'How It Works',
+      steps: [
+        { title: 'Create', items: ['Draw freely on the canvas', 'Chat with an AI companion'] },
+        { title: 'Analyze', items: ["AI reads the user's messages", 'Rates emotion and risk level'] },
+        {
+          title: 'Support',
+          items: ['Empathetic replies', 'Creative help on the canvas', 'Daily emotion reports', 'Crisis resources when needed'],
+        },
+      ],
+      loop: 'Each reply invites the user to keep creating and talking',
+    },
+    lessons: [
+      'Skipping code review to save time only costs more time later.',
+      'Building for vulnerable users means designing safeguards, not just features.',
+      'AI judgments need real validation, not just test cases we wrote ourselves.',
+      'Capacity planning and monitoring belong before launch, not after an outage.',
+      'I want to keep learning how to prevent failures, not just react to them.',
+    ],
     links: [
+      { label: 'Demo video', url: 'https://youtu.be/wIL9Pozo4Vw' },
       { label: 'Frontend repo', url: 'https://github.com/PeiJeSsu/feelink_frontend' },
       { label: 'Backend repo', url: 'https://github.com/PeiJeSsu/feelink_backend' },
     ],
@@ -83,7 +210,9 @@ export const projects: Project[] = [
     role: 'Team Lead',
     period: 'Fall 2024',
     context: 'Software Engineering Course · 5-person team',
+    course: 'Software Engineering',
     stack: ['React', 'Spring Boot', 'MongoDB', 'Firebase', 'Docker'],
+    cardSummary: 'A classroom booking platform for students, with room and key management for administrators.',
     summary:
       'A classroom booking platform that simplifies room reservations for students and streamlines classroom and key management for administrators.',
     highlights: [
@@ -100,7 +229,9 @@ export const projects: Project[] = [
     role: 'Team Lead',
     period: 'Spring 2024',
     context: 'Java Programming Course · 3-person team',
+    course: 'Java Programming',
     stack: ['Java', 'JavaFX', 'Coze AI API'],
+    cardSummary: 'A health tracker that calculates nutrition and calorie needs and gives AI-powered advice.',
     summary:
       'A health platform that calculates nutrition, calories, BMR, and TDEE from diet and exercise, and uses Coze AI to forecast trends, give recommendations, and answer health questions.',
     highlights: [
@@ -111,6 +242,12 @@ export const projects: Project[] = [
     featured: true,
   },
 ];
+
+export type Flow = {
+  title: string;
+  steps: { title: string; items: string[] }[];
+  loop?: string;
+};
 
 export type Section = {
   title?: string;
@@ -235,7 +372,7 @@ export const experience: Experience[] = [
           { text: 'Evaluated Ubuntu Server and Debian as the base operating system.' },
           { text: 'Tested Kubernetes, K3s, and k0s to find which ran reliably in our environment.' },
           { text: 'Reported findings and a recommendation to my team lead.' },
-          { text: 'The lab adopted my recommended setup: Ubuntu Server with K3s.' },
+          { text: 'The lab adopted my recommended setup: Ubuntu Server with k0s.' },
           { text: 'Automated remote setup over SSH with Ansible playbooks and Bash scripts.' },
           { text: 'Wrote scripts that the lab later reused.' },
           { text: "Resolved a long-running kubeconfig issue by tracing the cluster's config files." },

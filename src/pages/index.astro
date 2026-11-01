@@ -97,8 +97,9 @@ const initials = profile.name
             href={`${base}/projects/${p.slug}`}
             eyebrow={p.period}
             title={p.name}
-            subtitle={p.role}
-            summary={p.summary}
+            subtitle={`${p.role.split(' & ')[0]} · ${p.course}`}
+            badge={p.badge}
+            summary={p.cardSummary}
             tags={p.stack}
           />
         ))

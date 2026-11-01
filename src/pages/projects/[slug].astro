@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import DetailHeader from '../../components/DetailHeader.astro';
 import Sections from '../../components/Sections.astro';
+import ConceptFlow from '../../components/ConceptFlow.astro';
 import { projects, type Project } from '../../data/profile';
 
 export function getStaticPaths() {
@@ -11,10 +12,15 @@ export function getStaticPaths() {
 const { project } = Astro.props as { project: Project };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const sections = [
+const intro = [
   { title: 'Overview', description: project.summary },
-  ...(project.honors ? [{ title: 'Awards', points: project.honors.map((text) => ({ text })) }] : []),
-  { title: 'What I did', points: project.highlights.map((text) => ({ text })) },
+  ...(project.why ? [{ title: 'Why I Built It', points: project.why.map((text) => ({ text })) }] : []),
+  ...(project.honors ? [{ title: 'Awards & Recognition', points: project.honors.map((text) => ({ text })) }] : []),
+  ...(project.contributions ? [{ title: 'My Role', points: project.contributions.map((text) => ({ text })) }] : []),
+];
+const details = [
+  ...(project.details ?? [{ title: 'What I did', points: project.highlights.map((text) => ({ text })) }]),
+  ...(project.lessons ? [{ title: 'What I Learned', points: project.lessons.map((text) => ({ text })) }] : []),
 ];
 ---
 
@@ -30,6 +36,65 @@ const sections = [
       tags={project.stack}
       links={project.links}
     />
-    <Sections sections={sections} />
+    <Sections sections={intro} />
+  </div>
+
+  {project.flow && <ConceptFlow flow={project.flow} />}
+
+  {
+    project.images && (
+      <section class="gallery" id="screenshots">
+        <h2>Screenshots</h2>
+        <p class="meta">The interface is in Traditional Chinese.</p>
+        <div class="shots">
+          {project.images.map((img) => (
+            <figure>
+              <a href={`${base}${img.src}`}>
+                <img src={`${base}${img.src}`} alt={img.caption} loading="lazy" width="1600" height="856" />
+              </a>
+              <figcaption class="meta">{img.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <div class="readable details">
+    <Sections sections={details} />
   </div>
 </Base>
+
+<style>
+  .gallery {
+    margin: 2.25rem 0;
+  }
+  .gallery h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.2rem;
+  }
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  figure {
+    margin: 0;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  figcaption {
+    margin-top: 0.45rem;
+  }
+  @media (max-width: 640px) {
+    .shots {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

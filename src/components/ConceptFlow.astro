@@ -1,0 +1,97 @@
+---
+import type { Flow } from '../data/profile';
+import { slugify } from '../lib/slug';
+
+interface Props {
+  flow: Flow;
+}
+
+const { flow } = Astro.props;
+---
+
+<section class="flow" id={slugify(flow.title)}>
+  <h2>{flow.title}</h2>
+  <ol class="steps">
+    {
+      flow.steps.map((step, i) => (
+        <li class="step">
+          <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{step.title}</h3>
+          <ul>
+            {step.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+  {flow.loop && <p class="loop meta">↺ {flow.loop}</p>}
+</section>
+
+<style>
+  .flow {
+    margin: 2.25rem 0;
+  }
+  .flow h2 {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .step {
+    position: relative;
+    margin: 0;
+    padding: 1.1rem 1.2rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  /* Arrow between steps */
+  .step + .step::before {
+    content: '→';
+    position: absolute;
+    left: -1.7rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .num {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  .step h3 {
+    margin: 0.2rem 0 0.6rem;
+  }
+  .step ul {
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+  .step li li + li,
+  .step ul li + li {
+    margin-top: 0.3rem;
+  }
+  .loop {
+    margin: 0.9rem 0 0;
+    text-align: center;
+  }
+  @media (max-width: 720px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .step + .step::before {
+      content: '↓';
+      left: 50%;
+      top: -1.55rem;
+      transform: translateX(-50%);
+    }
+  }
+</style>
