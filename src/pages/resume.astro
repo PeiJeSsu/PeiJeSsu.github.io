@@ -41,9 +41,9 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
                     <strong>{e.org}</strong>
                     <span class="meta">{e.period}</span>
                   </div>
-                  <div class="muted">{e.title}</div>
+                  <div class="muted">{[e.title, e.advisor].filter(Boolean).join(" · ")}</div>
                   <ul>
-                    {e.sections.flatMap((s) =>
+                    {e.sections.filter((s) => !s.hideOnResume).flatMap((s) =>
                       (s.points ?? []).map((pt) => (
                         <li>
                           {pt.label && <strong>{pt.label}: </strong>}
@@ -108,8 +108,8 @@ const sectionTitle = { Education: 'Education', Research: 'Research Experience', 
                     <strong>{e.org}</strong>
                     <span class="meta">{e.period}</span>
                   </div>
-                  <div class="muted">{e.title}</div>
-                  {e.sections.map((s) => (
+                  <div class="muted">{[e.title, e.advisor].filter(Boolean).join(" · ")}</div>
+                  {e.sections.filter((s) => !s.hideOnResume).map((s) => (
                     <>
                       {s.title && <div class="r-sub">{s.title}</div>}
                       <ul>

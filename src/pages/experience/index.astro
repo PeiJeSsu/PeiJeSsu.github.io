@@ -6,9 +6,9 @@ import { experience } from '../../data/profile';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<Base title="Experience" description="Research, leadership, and education of Pei-Je Ssu.">
+<Base title="Experience" description="The roles and education that have shaped Pei-Je Ssu as an engineer.">
   <h1>Experience</h1>
-  <p class="page-intro">Research, leadership, and education. Open one for the details.</p>
+  <p class="page-intro">The roles and education that have shaped me as an engineer.</p>
   <div class="grid">
     {
       experience.map((e) => (
@@ -16,9 +16,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           href={`${base}/experience/${e.slug}`}
           eyebrow={`${e.kind} · ${e.period}`}
           title={e.title}
-          subtitle={e.org}
+          subtitle={e.shortOrg ?? e.org}
           summary={e.summary}
-          tags={e.tags}
         />
       ))
     }

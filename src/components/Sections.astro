@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { sections } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 {
@@ -17,7 +18,12 @@ const { sections } = Astro.props;
         <ul>
           {s.points.map((pt) => (
             <li>
-              {pt.label && <strong>{pt.label}: </strong>}
+              {pt.label && pt.href && (
+                <>
+                  <a href={pt.href.startsWith('/') ? `${base}${pt.href}` : pt.href}>{pt.label}</a> —{' '}
+                </>
+              )}
+              {pt.label && !pt.href && <strong>{pt.label}: </strong>}
               {pt.text}
             </li>
           ))}

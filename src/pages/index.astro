@@ -67,6 +67,26 @@ const initials = profile.name
 
   <section class="section">
     <div class="section-head">
+      <h2>Experience</h2>
+      <a href={`${base}/experience`} class="meta">All experience →</a>
+    </div>
+    <div class="grid">
+      {
+        experience.map((e) => (
+          <Card
+            href={`${base}/experience/${e.slug}`}
+            eyebrow={`${e.kind} · ${e.period}`}
+            title={e.title}
+            subtitle={e.shortOrg ?? e.org}
+            summary={e.summary}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
       <h2>Projects</h2>
       <a href={`${base}/projects`} class="meta">All projects →</a>
     </div>
@@ -80,26 +100,6 @@ const initials = profile.name
             subtitle={p.role}
             summary={p.summary}
             tags={p.stack}
-          />
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head">
-      <h2>Experience</h2>
-      <a href={`${base}/experience`} class="meta">All experience →</a>
-    </div>
-    <div class="grid">
-      {
-        experience.map((e) => (
-          <Card
-            href={`${base}/experience/${e.slug}`}
-            eyebrow={`${e.kind} · ${e.period}`}
-            title={e.title}
-            subtitle={e.org}
-            summary={e.summary}
           />
         ))
       }
