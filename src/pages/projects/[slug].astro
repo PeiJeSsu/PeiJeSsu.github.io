@@ -14,7 +14,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const intro = [
   { title: 'Overview', description: project.summary },
-  ...(project.why ? [{ title: 'Why I Built It', points: project.why.map((text) => ({ text })) }] : []),
+  ...(project.why ? [{ title: project.whyTitle ?? 'Why I Built It', points: project.why.map((text) => ({ text })) }] : []),
   ...(project.honors ? [{ title: 'Awards & Recognition', points: project.honors.map((text) => ({ text })) }] : []),
   ...(project.contributions ? [{ title: 'My Role', points: project.contributions.map((text) => ({ text })) }] : []),
 ];

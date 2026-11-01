@@ -55,6 +55,8 @@ export type Project = {
   highlights: string[];
   // Why the project exists, shown right after the overview.
   why?: string[];
+  // Heading for the why section; defaults to "Why I Built It".
+  whyTitle?: string;
   // One-line summary of my own contributions, shown near the top of the detail page.
   contributions?: string[];
   // Takeaways, shown at the end of the detail page.
@@ -337,22 +339,183 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: 'health-management-system',
-    name: 'Health Management System',
+    slug: 'health-assistant',
+    name: 'Health Assistant',
     role: 'Team Lead',
     period: 'Spring 2024',
-    context: 'Java Programming Course · 3-person team',
+    context: 'Java Programming Course · team of 3',
     course: 'Java Programming',
     stack: ['Java', 'JavaFX', 'Coze AI API'],
     cardSummary: 'A health tracker that calculates nutrition and calorie needs and gives AI-powered advice.',
     summary:
-      'A health platform that calculates nutrition, calories, BMR, and TDEE from diet and exercise, and uses Coze AI to forecast trends, give recommendations, and answer health questions.',
+      'A desktop app for logging meals and workouts, tracking goals, and getting AI health advice.',
     highlights: [
       'Created a reusable JavaFX GUI template that teammates plugged their modules into, giving every screen a consistent layout.',
       'Added goal setting, progress tracking, and reminders for diet and exercise, with file-based storage for profiles and records.',
     ],
-    links: [],
+    whyTitle: 'Why We Built It',
+    why: [
+      'All three of us on the team were overweight and rarely exercised.',
+      'We wanted a tool to help us track what we ate and how much we moved.',
+    ],
+    contributions: [
+      'Led a team of 3 as Team Lead.',
+      'Built the shared JavaFX GUI template that every screen was built on.',
+      'Built goal setting, progress tracking, and goal reminders.',
+      'Built saving and loading user data as CSV files.',
+      'Built the question bank screen and helped style the journal screens.',
+    ],
+    flow: {
+      title: 'How It Works',
+      steps: [
+        { title: 'Log', items: ['Record meals and workouts', 'Set weekly or monthly goals'] },
+        { title: 'Track', items: ['Calculate calories and nutrients', 'Follow progress toward goals'] },
+        { title: 'Advise', items: ['AI analysis report', 'AI health Q&A assistant'] },
+      ],
+    },
+    details: [
+      {
+        title: 'Features',
+        points: [
+          { text: 'Daily journal for meals and workouts, browsable by date' },
+          { text: 'Built-in nutrition data for calories, protein, carbs, and fat' },
+          { text: 'Calories burned calculated from exercise type, intensity, and duration' },
+          { text: 'Weekly and monthly goals with goal reminders' },
+          { text: 'AI analysis of BMR, TDEE, and diet and exercise habits' },
+          { text: 'Question bank of common health questions with ready-made answers' },
+          { text: 'AI assistant that answers health questions and draws charts and mind maps' },
+          { text: 'Records saved and loaded as CSV files' },
+        ],
+      },
+      {
+        title: 'Architecture',
+        points: [
+          { label: 'Language', text: 'Java' },
+          { label: 'GUI', text: 'JavaFX' },
+          { label: 'AI', text: 'Coze AI API' },
+          { label: 'Storage', text: 'CSV files' },
+        ],
+      },
+      {
+        title: 'GUI Template',
+        points: [
+          { text: 'Built a shared JavaFX layout that every screen plugged into.' },
+          { text: 'Kept every screen consistent and freed teammates to focus on features.' },
+        ],
+      },
+      {
+        title: 'Goals & Reminders',
+        points: [
+          { text: 'Built weekly and monthly goals for exercise, fat loss, and muscle gain.' },
+          { text: 'Showed each goal on every date from its start to its end.' },
+          { text: 'Showed a goal reminder at launch, where users could mark each goal as done or not yet.' },
+        ],
+      },
+      {
+        title: 'Data Storage',
+        points: [
+          { text: 'Saved and loaded journals and goals as CSV files.' },
+          { text: 'Encoded files as UTF-8 with BOM so Excel displayed Chinese text correctly.' },
+          { text: 'Added extra parsing so files still loaded after users edited them by hand.' },
+        ],
+      },
+    ],
+    lessons: [
+      'A realistic scope matters; some features we promised ended up half done.',
+      'Without an agreed architecture, our code grew more tangled every week.',
+      'Passing files around broke something almost weekly, which pushed me toward Git.',
+      'A shared component saves the whole team effort and keeps screens consistent.',
+      "User input can't be trusted: hand-edited files need defensive parsing.",
+    ],
+    links: [{ label: 'Demo video', url: 'https://youtu.be/7PS9q-4QHWs' }],
     featured: true,
+  },
+  {
+    slug: 'peak-expedition',
+    name: 'Peak Expedition',
+    role: 'Team Lead',
+    period: 'Fall 2023',
+    context: 'Web Programming Course · team of 2',
+    course: 'Web Programming',
+    stack: ['JavaScript', 'Node.js'],
+    cardSummary: 'A hiking guide to five Taiwanese mountains, with a message board for hikers.',
+    summary: 'A hiking website with trail guides for five mountains in Taiwan and a message board for hikers.',
+    highlights: [
+      'Built the backend for sign-up, login, and a message board with Express and MongoDB, hashing passwords with bcrypt and issuing JWTs on login.',
+      "Compared the requester's email with the message's author before allowing edits or deletes.",
+      'Designed the UI for every page and built the home, About Us, login, sign-up, and message board pages.',
+    ],
+    whyTitle: 'Why We Built It',
+    why: [
+      'My teammate loves hiking, so we built a site around it.',
+      'We set out to collect trail guides and give hikers a place to share experiences.',
+    ],
+    contributions: [
+      'Led a team of 2 as Team Lead.',
+      'Designed the look and feel of every page.',
+      'Built the home, About Us, login, sign-up, and message board pages.',
+      'Built the backend for sign-up, login, and the message board.',
+    ],
+    flow: {
+      title: 'How It Works',
+      steps: [
+        { title: 'Explore', items: ['Browse five mountain guides', 'Check routes, gear, and tips'] },
+        { title: 'Join', items: ['Sign up and log in', 'Get a login token to post'] },
+        { title: 'Share', items: ['Post on the message board', 'Edit or delete your own posts'] },
+      ],
+    },
+    details: [
+      {
+        title: 'Features',
+        points: [
+          { text: 'Trail guides for five mountains in Taiwan' },
+          { text: 'Route, distance, time, gear, and safety notes for each trail' },
+          { text: 'Sign-up and login with hashed passwords' },
+          { text: 'Message board for sharing hiking experiences' },
+          { text: 'Search posts by author name' },
+          { text: 'Edit and delete your own posts' },
+        ],
+      },
+      {
+        title: 'Architecture',
+        points: [
+          { label: 'Frontend', text: 'HTML, CSS, and JavaScript' },
+          { label: 'Backend', text: 'Node.js and Express REST API' },
+          { label: 'Database', text: 'MongoDB with Mongoose' },
+          { label: 'Auth', text: 'JWT with bcrypt password hashing' },
+        ],
+      },
+      {
+        title: 'Login & Security',
+        points: [
+          { text: 'Hashed passwords with bcrypt instead of storing them in plain text.' },
+          { text: 'Issued a JWT on login to verify users on later requests.' },
+          { text: 'Validated sign-up and login input with Joi before touching the database.' },
+          { text: 'Rejected sign-ups that used an email already registered.' },
+        ],
+      },
+      {
+        title: 'Message Board',
+        points: [
+          { text: 'Built APIs to post, list, search, edit, and delete messages.' },
+          { text: "Compared the requester's email with the message's author before edits or deletes." },
+        ],
+      },
+      {
+        title: 'UI Design',
+        points: [
+          { text: 'Styled every page for a consistent look, including the mountain guides.' },
+          { text: 'Chose rounded and handwritten Chinese fonts to give the site a friendly feel.' },
+        ],
+      },
+    ],
+    lessons: [
+      'My first backend showed me how a frontend and a server talk through APIs.',
+      'Passwords should be hashed, never stored in plain text.',
+      'Ownership checks need a verified token, not data the browser sends.',
+      'A realistic scope matters; badges, trip planning, and weather never got built.',
+    ],
+    links: [],
   },
 ];
 
@@ -439,11 +602,11 @@ export const experience: Experience[] = [
             text: 'Software Engineering',
           },
           {
-            label: 'Health Management System',
-            href: '/projects/health-management-system',
+            label: 'Health Assistant',
+            href: '/projects/health-assistant',
             text: 'Java Programming',
           },
-          { text: 'Hiking Information Website — Web Programming' },
+          { label: 'Peak Expedition', href: '/projects/peak-expedition', text: 'Web Programming' },
         ],
       },
       {
@@ -531,11 +694,11 @@ export const experience: Experience[] = [
             text: 'Software Engineering · team of 5 · Team Lead & Scrum Master',
           },
           {
-            label: 'Health Management System',
-            href: '/projects/health-management-system',
+            label: 'Health Assistant',
+            href: '/projects/health-assistant',
             text: 'Java Programming · team of 3 · Team Lead',
           },
-          { text: 'Hiking Information Website —Web Programming · team of 2 · Team Lead' },
+          { label: 'Peak Expedition', href: '/projects/peak-expedition', text: 'Web Programming · team of 2 · Team Lead' },
         ],
       },
       {
