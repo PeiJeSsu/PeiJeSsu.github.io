@@ -207,20 +207,133 @@ export const projects: Project[] = [
   {
     slug: 'class-reservation-system',
     name: 'Class Reservation System',
-    role: 'Team Lead',
+    role: 'Team Lead & Scrum Master',
     period: 'Fall 2024',
-    context: 'Software Engineering Course · 5-person team',
+    context: 'Software Engineering Course · team of 5',
     course: 'Software Engineering',
-    stack: ['React', 'Spring Boot', 'MongoDB', 'Firebase', 'Docker'],
+    stack: ['React', 'Spring Boot', 'MongoDB', 'Docker'],
     cardSummary: 'A classroom booking platform for students, with room and key management for administrators.',
     summary:
-      'A classroom booking platform that simplifies room reservations for students and streamlines classroom and key management for administrators.',
+      'A platform for booking campus classrooms and managing rooms and keys.',
     highlights: [
       'Built the booking service, rejecting overlapping, duplicate, and banned-user or banned-room requests up front so users learned immediately that a slot was unavailable.',
       'Engineered Firebase authentication with email/password and Google sign-in, email verification, and role-based access; school-email registration ensured only verified students could book.',
       'Containerized the Spring Boot backend with Docker and deployed it on Render, with the React frontend on Vercel.',
     ],
-    links: [{ label: 'GitHub repo', url: 'https://github.com/PeiJeSsu/Classroom-Reservation' }],
+    contributions: [
+      'Led a team of 5 as Team Lead and Scrum Master.',
+      "Introduced the team's Git branch and pull request workflow.",
+      'Co-wrote the requirements, design, and test documents.',
+      'Designed the data model for users, classrooms, and booking requests.',
+      'Built the booking service and Firebase authentication.',
+      'Containerized the backend with Docker and deployed the full stack.',
+      'Planned our testing and ran the JMeter performance tests.',
+    ],
+    flow: {
+      title: 'How It Works',
+      steps: [
+        { title: 'Find', items: ['Filter classrooms by floor and room', 'Check the weekly schedule'] },
+        { title: 'Request', items: ['Pick a time slot', 'Submit a booking request'] },
+        { title: 'Review', items: ['Admin reviews the request', 'Approves or rejects it'] },
+      ],
+    },
+    details: [
+      {
+        title: 'Features',
+        points: [
+          { text: 'Classroom search by floor and room, with key status and borrower' },
+          { text: "Weekly timetable view of each classroom's bookings" },
+          { text: 'Booking requests for any open time slot' },
+          { text: 'Admin review to approve or reject each request' },
+          { text: 'Role-based access, so borrowers and admins see different content' },
+          { text: 'Room bans for maintenance and key tracking for admins' },
+          { text: 'School-email sign-up with verification, plus Google sign-in' },
+          { text: 'Campus map and multi-language interface' },
+        ],
+      },
+      {
+        title: 'Architecture',
+        points: [
+          { label: 'Frontend', text: 'React, deployed on Vercel' },
+          { label: 'Backend', text: 'Spring Boot REST API in Docker, deployed on Render' },
+          { label: 'Database', text: 'MongoDB Atlas' },
+          { label: 'Auth', text: 'Firebase Authentication' },
+        ],
+      },
+      {
+        title: 'Team Process',
+        points: [
+          { text: 'Tracked sprints and tasks on Jira.' },
+          { text: 'Ran sprint planning, reviews, and retrospectives as Scrum Master.' },
+          { text: 'Broke features into user stories with a user story map.' },
+          { text: 'Introduced Git branches and pull requests after earlier projects broke from shared files.' },
+          { text: "Co-wrote the SRD, SDD, and STD as the project's requirements, design, and test documents." },
+        ],
+      },
+      {
+        title: 'Helping a Teammate Catch Up',
+        points: [
+          { text: 'One teammate fell behind on tasks the rest of us saw as simple.' },
+          { text: "Taking over their work would have been faster, but it wouldn't help them grow." },
+          { text: 'Instead, I worked through the features with them step by step.' },
+          { text: 'They learned the workflow along the way and soon kept pace on their own.' },
+          { text: 'After that, the team rarely ran into this kind of problem again.' },
+        ],
+      },
+      {
+        title: 'Booking Service',
+        points: [
+          { text: 'Rejected any request that overlapped an approved booking.' },
+          { text: 'Blocked duplicate requests and bookings for banned rooms.' },
+          { text: 'Told users right away that a slot was taken, instead of waiting for an admin.' },
+        ],
+      },
+      {
+        title: 'Authentication & Access',
+        points: [
+          { text: 'Built sign-up and login with Firebase, using email/password or Google.' },
+          { text: "Required a school email based on the student's ID, with email verification." },
+          { text: 'Gave borrowers and administrators different permissions by role.' },
+        ],
+      },
+      {
+        title: 'Across the Stack',
+        points: [
+          { text: 'Helped design and build the classroom search and request review pages.' },
+          { text: 'Helped design and build the login and registration pages.' },
+          { text: 'Helped design and build the booking, classroom, and user APIs.' },
+        ],
+      },
+      {
+        title: 'Testing',
+        points: [
+          { text: 'Planned system, API, performance, and automated UI testing.' },
+          { text: 'Wrote and ran performance tests with JMeter.' },
+          { text: 'Compiled the final test report.' },
+        ],
+      },
+      {
+        title: 'Design Decisions',
+        points: [
+          { text: 'Verified students through student-ID email addresses instead of photo checks.' },
+          { text: 'Let admins flag unreturned keys instead of detecting them automatically.' },
+          { text: 'Showed bookings as a weekly timetable, easier to read than text.' },
+          { text: 'Chose Vercel and Render for deployment because the team already knew them.' },
+        ],
+      },
+    ],
+    lessons: [
+      'Writing requirements first kept us focused instead of changing direction over and over.',
+      'A design document kept our modules cleanly separated instead of tangled together.',
+      'Planning in sprints beats building whatever comes to mind.',
+      'Regular Scrum meetings let me see where everyone was and shift resources early.',
+      'Reviewing each sprint as a team helped us decide what to add next and what to drop.',
+      'Teaching a stuck teammate takes more of my time now but costs the team less later.',
+    ],
+    links: [
+      { label: 'Demo video', url: 'https://youtu.be/sMxRTr58JmI' },
+      { label: 'GitHub repo', url: 'https://github.com/PeiJeSsu/Classroom-Reservation' },
+    ],
     featured: true,
   },
   {
