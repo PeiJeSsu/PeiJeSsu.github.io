@@ -213,7 +213,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'class-reservation-system',
-    name: 'Class Reservation System',
+    name: 'Classroom Reservation System',
     role: 'Team Lead & Scrum Master',
     period: 'Fall 2024',
     context: 'Software Engineering Course · team of 5',
@@ -608,7 +608,7 @@ export const experience: Experience[] = [
         title: 'Course Projects',
         points: [
           {
-            label: 'Class Reservation System',
+            label: 'Classroom Reservation System',
             href: '/projects/class-reservation-system',
             text: 'Software Engineering',
           },
@@ -710,19 +710,19 @@ export const experience: Experience[] = [
           {
             label: 'FeelInk',
             href: '/projects/feelink',
-            text: 'Capstone Project · team of 4 · Team Lead & Scrum Master',
+            text: 'Capstone Project · Team Lead & Scrum Master',
           },
           {
-            label: 'Class Reservation System',
+            label: 'Classroom Reservation System',
             href: '/projects/class-reservation-system',
-            text: 'Software Engineering · team of 5 · Team Lead & Scrum Master',
+            text: 'Software Engineering · Team Lead & Scrum Master',
           },
           {
             label: 'Health Assistant',
             href: '/projects/health-assistant',
-            text: 'Java Programming · team of 3 · Team Lead',
+            text: 'Java Programming · Team Lead',
           },
-          { label: 'Peak Expedition', href: '/projects/peak-expedition', text: 'Web Programming · team of 2 · Team Lead' },
+          { label: 'Peak Expedition', href: '/projects/peak-expedition', text: 'Web Programming · Team Lead' },
         ],
       },
       {
@@ -761,7 +761,7 @@ export const experience: Experience[] = [
         title: 'Team Support',
         points: [
           { text: "Assigned tasks based on each member's strengths and interests." },
-          { text: 'On the Class Reservation System, noticed a teammate stalling on the workflow.' },
+          { text: 'On the Classroom Reservation System, noticed a teammate stalling on the workflow.' },
           { text: 'Built features alongside them until they could keep pace on their own.' },
         ],
       },
