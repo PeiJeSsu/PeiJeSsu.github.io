@@ -11,6 +11,9 @@ export function getStaticPaths() {
 
 const { project } = Astro.props as { project: Project };
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const index = projects.findIndex((p) => p.slug === project.slug);
+const previous = projects[index - 1];
+const next = projects[index + 1];
 
 const intro = [
   { title: 'Overview', description: project.summary },
@@ -62,10 +65,57 @@ const details = [
 
   <div class="readable details">
     <Sections sections={details} />
+
+    <nav class="pager no-print" aria-label="More projects">
+      {
+        previous && (
+          <a class="previous" href={`${base}/projects/${previous.slug}`}>
+            <span class="meta">← Previous</span>
+            <strong>{previous.name}</strong>
+          </a>
+        )
+      }
+      {
+        next && (
+          <a class="next" href={`${base}/projects/${next.slug}`}>
+            <span class="meta">Next →</span>
+            <strong>{next.name}</strong>
+          </a>
+        )
+      }
+    </nav>
   </div>
 </Base>
 
 <style>
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+  }
+  .pager a:hover {
+    border-color: var(--muted);
+    text-decoration: none;
+  }
+  .pager strong {
+    font-weight: 600;
+  }
+  .pager .next {
+    grid-column: 2;
+    text-align: right;
+  }
   .gallery {
     margin: 2.25rem 0;
   }
@@ -95,6 +145,12 @@ const details = [
   @media (max-width: 640px) {
     .shots {
       grid-template-columns: 1fr;
+    }
+    .pager {
+      grid-template-columns: 1fr;
+    }
+    .pager .next {
+      grid-column: auto;
     }
   }
 </style>
