@@ -11,9 +11,19 @@ const initials = profile.name
   .split(/[\s-]+/)
   .map((w) => w[0])
   .join('');
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.title,
+  url: Astro.site?.href,
+  image: new URL(`${base}/profile.jpg`, Astro.site).href,
+  sameAs: [profile.links.github, profile.links.linkedin],
+};
 ---
 
 <Base>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
   <section class="hero">
     <div class="hero-text">
       <h1>{profile.name}</h1>
