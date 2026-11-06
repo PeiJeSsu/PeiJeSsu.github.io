@@ -231,6 +231,32 @@ main.container {
   flex-wrap: wrap;
 }
 
+/* Hidden visually but still read by screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Off screen until reached with the keyboard. */
+.skip-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 20;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--text);
+  color: var(--bg);
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+
 @media print {
   /* Always print in light colors, whatever theme is on screen. */
   :root,

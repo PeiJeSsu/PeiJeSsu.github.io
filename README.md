@@ -12,6 +12,7 @@ Built with [Astro](https://astro.build) and deployed to GitHub Pages with GitHub
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # output in dist/
+npm run resume:pdf   # rebuild public/resume.pdf from the resume page (macOS only)
 ```
 
 ## Editing content
@@ -19,6 +20,7 @@ npm run build    # output in dist/
 - **Profile, skills, projects, experience:** `src/data/profile.ts`
 - **Blog posts:** copy `src/content/blog/_template.md`, rename it, and set `draft: false`
 - **Photo:** `public/profile.jpg`
-- **Resume PDF (optional):** add `public/resume.pdf` and set `hasResumePdf: true` in `src/data/profile.ts`
+- **Resume PDF:** after changing resume content, run `npm run resume:pdf` and check it still fits on one page
+- **Share preview image:** `public/og.png` has fixed text, so update it when your title or tagline changes
 
 Pushing to `main` deploys the site automatically.
