@@ -13,5 +13,7 @@ const hasPosts = readdirSync(blogDir).some(
 export default defineConfig({
   // Deployed to GitHub Pages as a user site (repo: PeiJeSsu.github.io).
   site: 'https://peijessu.github.io',
+  // Keep links to the project's old URL working.
+  redirects: { '/projects/class-reservation-system': '/projects/classroom-reservation-system' },
   integrations: [sitemap({ filter: (page) => hasPosts || !page.endsWith('/blog/') })],
 });

@@ -212,7 +212,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: 'class-reservation-system',
+    slug: 'classroom-reservation-system',
     name: 'Classroom Reservation System',
     role: 'Team Lead & Scrum Master',
     period: 'Fall 2024',
@@ -609,7 +609,7 @@ export const experience: Experience[] = [
         points: [
           {
             label: 'Classroom Reservation System',
-            href: '/projects/class-reservation-system',
+            href: '/projects/classroom-reservation-system',
             text: 'Software Engineering',
           },
           {
@@ -714,7 +714,7 @@ export const experience: Experience[] = [
           },
           {
             label: 'Classroom Reservation System',
-            href: '/projects/class-reservation-system',
+            href: '/projects/classroom-reservation-system',
             text: 'Software Engineering · Team Lead & Scrum Master',
           },
           {
