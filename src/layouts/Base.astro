@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { profile } from '../data/profile';
+import { getPublishedPosts } from '../lib/blog';
 
 interface Props {
   title?: string;
@@ -15,10 +16,12 @@ const path = Astro.url.pathname.replace(base, '') || '/';
 const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site).href;
 const ogImage = new URL(`${base}/og.png`, Astro.site).href;
 
+const hasPosts = (await getPublishedPosts()).length > 0;
 const nav = [
   { href: '/experience', label: 'Experience' },
   { href: '/projects', label: 'Projects' },
-  { href: '/blog', label: 'Blog' },
+  // The Blog link appears automatically once a post is published.
+  ...(hasPosts ? [{ href: '/blog', label: 'Blog' }] : []),
   { href: '/resume', label: 'Resume' },
 ];
 ---
@@ -44,6 +47,16 @@ const nav = [
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
     <slot name="head" />
+    {
+      import.meta.env.PROD && (
+        <script
+          is:inline
+          async
+          data-goatcounter="https://justinssu.goatcounter.com/count"
+          src="https://gc.zgo.at/count.js"
+        />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
